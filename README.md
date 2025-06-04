@@ -17,32 +17,25 @@ Projekt obejmuje następujące kluczowe tematy, zilustrowane konkretnymi zadania
 
 1.  **Wzorzec Projektowy Builder (Builder Design Pattern):**
     *   Jak konstruować złożone obiekty krok po kroku, oddzielając proces konstrukcji od reprezentacji obiektu.
-    *   *Plik:* `zadanie1_builder.py` (lub podobny)
 
 2.  **Zmiana dziedziczenia na kompozycję (Inheritance to Composition):**
     *   Preferowanie kompozycji nad dziedziczeniem dla większej elastyczności i unikania problemów związanych z "is-a" vs "has-a".
-    *   *Plik:* `zadanie2_kompozycja.py` (lub podobny)
 
 3.  **Problemy wywołane dziedziczeniem (Issues Caused by Inheritance):**
     *   Analiza problemu "Kruchej Klasy Bazowej" (Fragile Base Class Problem).
     *   Zastosowanie wzorca Metody Szablonowej (Template Method Pattern) jako jednego ze sposobów rozwiązania.
-    *   *Plik:* `zadanie3_fragile_base_class.py` (lub podobny)
 
 4.  **Zasada Podstawienia Liskov (Liskov Substitution Principle - LSP):**
     *   Zapewnienie, że obiekty klas pochodnych mogą zastępować obiekty klas bazowych bez zmiany poprawności programu.
-    *   *Plik:* `zadanie4_lsp.py` (lub podobny)
 
 5.  **Metaklasy (Metaclasses):**
     *   Zrozumienie, czym są metaklasy ("klasy tworzące klasy") i jak można ich używać do modyfikowania procesu tworzenia klas.
-    *   *Plik:* `zadanie5_metaklasy.py` (lub podobny)
 
 6.  **`super()` i Kolejność Rozwiązywania Metod (Method Resolution Order - MRO):**
     *   Poprawne użycie `super()` w hierarchiach dziedziczenia (w tym wielokrotnego) dla zapewnienia spójnego łańcucha wywołań.
-    *   *Plik:* `zadanie_super_mro.py` (lub podobny)
 
 7.  **Problem Diamentu (Diamond Problem):**
     *   Zarządzanie dziedziczeniem, gdy klasa dziedziczy z wielu ścieżek po wspólnym przodku.
-    *   *Plik:* `zadanie_diamond_problem.py` (lub podobny)
 
 📂 **Struktura Projektu**
 Repozytorium zawiera:
