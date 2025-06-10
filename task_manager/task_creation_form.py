@@ -61,14 +61,6 @@ class TaskForm(tk.Toplevel):
                 messagebox.showerror("Error", "Deadline must be DD.MM.YYY format.")
                 return
 
-        recurring_str = self.recurring_entry.get().strip()
-        if recurring_str:
-            if recurring_str.isdigit():
-                builder.set_recurring_interval(int(recurring_str))
-            else:
-                messagebox.showerror("Error", "Recurring interval must be an integer.")
-                return
-
         priority = self.priority_entry.get().strip()
         if priority:
             builder.set_priority(priority)
