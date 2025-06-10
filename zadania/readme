@@ -1,0 +1,356 @@
+Zadanie1: Wzorzec Projektowy Builder
+Cel zadania
+
+Celem tego zadania jest praktyczne zaimplementowanie wzorca projektowego Builder w języku Python. Będziesz pracować z klasami EmailMessage (produkt) oraz EmailBuilder (budowniczy), aby stworzyć mechanizm do konstruowania obiektów wiadomości e-mail krok po kroku.
+
+Wzorzec Builder jest użyteczny, gdy proces tworzenia obiektu jest skomplikowany, wymaga wielu kroków lub różnych konfiguracji. Oddziela on konstrukcję obiektu od jego reprezentacji.
+Twoje Zadanie
+
+Uzupełnij metody w klasie EmailBuilder zgodnie z komentarzami TODO w kodzie. Twoim zadaniem jest:
+
+    Uzupełnić metody set_... oraz add_attachment:
+
+        set_recipient(self, recipient): powinna ustawiać odbiorcę wiadomości.
+
+        set_subject(self, subject): powinna ustawiać temat wiadomości.
+
+        set_body(self, body): powinna ustawiać treść wiadomości.
+
+        add_attachment(self, attachment): powinna dodawać załącznik do listy.
+
+        Pamiętaj, aby każda z tych metod zwracała self, co umożliwi łańcuchowe wywoływanie metod (fluent interface).
+
+    Uzupełnić metodę build:
+
+        Metoda powinna zwracać finalny, skonfigurowany obiekt EmailMessage.
+
+        Przed zwróceniem obiektu, dodaj walidację sprawdzającą, czy pola recipient i subject zostały ustawione. Jeśli nie, rzuć wyjątek ValueError z odpowiednim komunikatem.
+
+Jak uruchomić i przetestować?
+
+Po uzupełnieniu kodu, odkomentuj i uruchom fragment znajdujący się na końcu pliku. Pozwoli to zweryfikować poprawność Twojego rozwiązania.
+
+      
+# Przykład użycia (po uzupełnieniu TODO):
+builder = EmailBuilder()
+email = (builder.set_recipient("test@example.com")
+         .set_subject("Ważna wiadomość")
+         .set_body("To jest treść wiadomości.")
+         .add_attachment("raport.pdf")
+         .add_attachment("zdjecie.jpg")
+         .build())
+print(email)
+
+try:
+    email_error = EmailBuilder().set_recipient("error@example.com").build()
+except ValueError as e:
+    print(f"\nBłąd: {e}")
+
+    
+
+IGNORE_WHEN_COPYING_START
+Use code with caution. Python
+IGNORE_WHEN_COPYING_END
+Oczekiwany Rezultat
+
+Po poprawnym zaimplementowaniu i uruchomieniu kodu testowego, na konsoli powinien pojawić się następujący wynik:
+
+      
+To: test@example.com
+From: default.sender@example.com
+Subject: Ważna wiadomość
+Body: To jest treść wiadomości.
+Attachments: raport.pdf, zdjecie.jpg
+
+Błąd: Odbiorca i temat muszą być ustawione przed zbudowaniem wiadomości.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Zadanie2: Zmiana Dziedziczenia na Kompozycję
+Cel zadania
+
+Celem tego zadania jest praktyczna refaktoryzacja kodu – zmiana relacji między klasami z dziedziczenia na kompozycję. Zadanie to ilustruje jedną z fundamentalnych zasad programowania obiektowego: "preferuj kompozycję nad dziedziczeniem" ("favor composition over inheritance").
+
+Zamiast tworzyć relację typu "jest" (DataProcessor jest SimpleLogger), stworzymy relację typu "ma" (DataProcessor ma SimpleLogger), co prowadzi do bardziej elastycznego i łatwiejszego w utrzymaniu kodu.
+Twoje Zadanie
+
+Uzupełnij kod w klasie DataProcessor, aby zamiast dziedziczyć z SimpleLogger, wykorzystywała jego instancję do logowania.
+
+    Zainicjalizuj logger w __init__:
+
+        W konstruktorze (__init__) stwórz instancję klasy SimpleLogger.
+
+        Przypisz stworzony obiekt do atrybutu instancji, np. self.logger.
+
+    Użyj loggera w metodzie process:
+
+        W miejscach oznaczonych TODO, użyj obiektu loggera do zapisywania informacji o przebiegu przetwarzania.
+
+        Zamiast wywołania self.log(...) (które działałoby przy dziedziczeniu), będziesz teraz używać self.logger.log(...).
+
+Jak uruchomić i przetestować?
+
+Po uzupełnieniu kodu zgodnie z komentarzami TODO, odkomentuj i uruchom fragment znajdujący się na końcu pliku.
+
+      
+# Przykład użycia (po uzupełnieniu TODO):
+processor = DataProcessor()
+result = processor.process("przykladowe dane")
+print(f"Otrzymany wynik: {result}")
+
+    
+
+IGNORE_WHEN_COPYING_START
+Use code with caution. Python
+IGNORE_WHEN_COPYING_END
+Oczekiwany Rezultat
+
+Po poprawnym zaimplementowaniu i uruchomieniu kodu testowego, na konsoli powinien pojawić się następujący wynik:
+
+      
+[LOG] Rozpoczynam przetwarzanie danych: przykladowe dane
+[LOG] Zakończono przetwarzanie. Wynik: PRZYKLADOWE DANE
+Otrzymany wynik: PRZYKLADOWE DANE
+    
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Zadanie3: Dziedziczenie Wielokrotne i MRO z super()
+Cel zadania
+
+Celem tego zadania jest zrozumienie, jak Python obsługuje dziedziczenie wielokrotne i jak funkcja super() współpracuje z Method Resolution Order (MRO), aby zapewnić przewidywalną kolejność wywoływania metod w złożonych hierarchiach klas.
+
+Pracując z klasycznym "problemem diamentowym" (D dziedziczy po B i C, które dziedziczą po A), zobaczysz w praktyce, jak super() dynamicznie odnajduje następną metodę do wywołania w łańcuchu MRO.
+Kluczowy Koncept: Method Resolution Order (MRO)
+
+MRO to algorytm, którego Python używa do określenia kolejności, w jakiej przeszukuje klasy nadrzędne w poszukiwaniu metody. W przypadku dziedziczenia wielokrotnego, jak class D(B, C), kolejność bazowych klas ma kluczowe znaczenie.
+
+Możesz sprawdzić MRO dla klasy D za pomocą D.mro(). Oczekiwany wynik to:
+['D', 'B', 'C', 'A', 'object']
+
+Oznacza to, że gdy wywołujemy super() w metodzie należącej do:
+
+    D, Python szuka metody w B.
+
+    B, Python szuka metody w C.
+
+    C, Python szuka metody w A.
+
+Twoje Zadanie
+
+Uzupełnij brakujący kod w metodach process() klas B, C i D zgodnie z komentarzami TODO.
+
+Twoim zadaniem jest wstawienie wywołania super().process(data) w odpowiednich miejscach, aby stworzyć łańcuch wywołań zgodny z MRO klasy D. Pamiętaj, aby przekazać argument data w każdym wywołaniu, ponieważ jest on modyfikowany na każdym etapie.
+Jak uruchomić i przetestować?
+
+Po uzupełnieniu kodu, odkomentuj i uruchom fragment testowy na końcu pliku.
+
+      
+# Kod testowy (powinien działać po uzupełnieniu TODO)
+d_instance = D()
+result = d_instance.process([])
+print(f"\nKońcowy wynik przetwarzania: {result}")
+
+    
+
+IGNORE_WHEN_COPYING_START
+Use code with caution. Python
+IGNORE_WHEN_COPYING_END
+Oczekiwany Rezultat
+
+Jeśli zadanie zostało wykonane poprawnie, program powinien wypisać na konsoli komunikaty o przetwarzaniu w kolejności zgodnej z MRO, a na końcu zwrócić listę z zebranymi wartościami.
+
+      
+D: processing
+B: processing
+C: processing
+A: processing
+
+Końcowy wynik przetwarzania: ['D', 'B', 'C', 'A']
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Zadanie4: Automatyczne Dodawanie Funkcjonalności za Pomocą Metaklasy
+Cel zadania
+
+Celem tego zadania jest zrozumienie i praktyczne zastosowanie metaklas w Pythonie. Nauczysz się, jak dynamicznie modyfikować definicje klas w momencie ich tworzenia.
+
+Zadanie polega na stworzeniu metaklasy EnsureLoggingMeta, która automatycznie zapewni, że każda klasa jej używająca będzie posiadała funkcjonalność logowania, dziedzicząc ją z LoggingMixin – o ile już jej nie posiada. To potężna technika pozwalająca na egzekwowanie standardów projektowych i unikanie powtarzania kodu (zasada DRY - Don't Repeat Yourself).
+Kluczowy Koncept: Metaklasy
+
+W Pythonie wszystko jest obiektem, a klasy nie są wyjątkiem. Skoro klasy są obiektami, to muszą być tworzone przez "coś" innego. Tym "czymś" są metaklasy.
+
+    Klasy tworzą obiekty (instancje).
+
+    Metaklasy tworzą klasy.
+
+Metaklasy pozwalają nam "wtrącić się" w proces tworzenia klasy. Najczęściej robi się to poprzez zdefiniowanie metody __new__ w metaklasie. Otrzymuje ona nazwę tworzonej klasy, jej klasy bazowe (bases) oraz jej atrybuty (attrs), dając nam możliwość ich modyfikacji tuż przed ostatecznym stworzeniem obiektu klasy.
+Twoje Zadanie
+
+Uzupełnij kod w metaklasie EnsureLoggingMeta oraz odpowiedz na pytanie w komentarzu.
+
+    Uzupełnij logikę w EnsureLoggingMeta.__new__:
+
+        Twoim celem jest sprawdzenie, czy tworzona klasa (lub którakolwiek z jej klas bazowych) dziedziczy już po LoggingMixin.
+
+        Jeśli nie, musisz zmodyfikować krotkę bases, dodając do niej LoggingMixin.
+
+        Wskazówka: Pamiętaj, że krotki (tuple) są niemutowalne. Aby dodać element, musisz stworzyć nową krotkę, np. bases = bases + (LoggingMixin,).
+
+    Uruchom i przeanalizuj kod:
+
+        Odkomentuj kod testowy na końcu pliku.
+
+        Zwróć uwagę na komunikaty wypisywane podczas tworzenia klas MyService i AnotherService.
+
+        Sprawdź ostateczną kolejność dziedziczenia (MRO) dla obu klas.
+
+    Wyjaśnij działanie (pytanie bonusowe):
+
+        W komentarzu w kodzie odpowiedz na pytanie, dlaczego wywołanie self.log() w instancji MyService działa, mimo że MyService nie dziedziczy bezpośrednio po LoggingMixin w swojej definicji.
+
+Jak uruchomić i przetestować?
+
+Po uzupełnieniu logiki w metaklasie, odkomentuj i uruchom fragmenty testowe na końcu pliku.
+
+      
+# --- Testy ---
+print("\n--- Test MyService ---")
+s1 = MyService()
+s1.specific_task()
+print("MRO dla MyService:", [cls.__name__ for cls in MyService.mro()])
+
+print("\n--- Test AnotherService ---")
+s2 = AnotherService()
+s2.other_task()
+print("MRO dla AnotherService:", [cls.__name__ for cls in AnotherService.mro()])
+
+    
+
+IGNORE_WHEN_COPYING_START
+Use code with caution. Python
+IGNORE_WHEN_COPYING_END
+Oczekiwany Rezultat
+
+Po poprawnym zaimplementowaniu i uruchomieniu kodu testowego, na konsoli powinien pojawić się następujący wynik:
+
+      
+Tworzenie klasy 'MyService' z bazami: ['ServiceBase', 'LoggingMixin']
+Tworzenie klasy 'AnotherService' z bazami: ['LoggingMixin', 'ServiceBase']
+
+--- Test MyService ---
+[LOG - MyService] Wykonuję specyficzne zadanie w MyService.
+ServiceBase: Wykonuję podstawową akcję.
+[LOG - MyService] Zakończono specyficzne zadanie.
+MRO dla MyService: ['MyService', 'ServiceBase', 'LoggingMixin', 'object']
+
+--- Test AnotherService ---
+[LOG - AnotherService] Wykonuję inne zadanie w AnotherService.
+ServiceBase: Wykonuję podstawową akcję.
+[LOG - AnotherService] Zakończono inne zadanie.
+MRO dla AnotherService: ['AnotherService', 'LoggingMixin', 'ServiceBase', 'object']
+
+    
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Zadanie5: Problem Diamentu – super() vs Bezpośrednie Wywołanie
+Cel zadania
+
+Celem tego zadania jest dogłębne zrozumienie, dlaczego konsekwentne używanie funkcji super() jest kluczowe w hierarchiach dziedziczenia wielokrotnego. Zobaczysz na praktycznym przykładzie, jak Problem Diamentu (ang. The Diamond Problem) może prowadzić do nieoczekiwanego i nieprawidłowego zachowania, jeśli metody klas nadrzędnych są wywoływane w sposób niekontrolowany.
+
+Zadanie kontrastuje dwa podejścia:
+
+    Niezarządzane (Unmanaged): gdzie metody nadrzędne są wywoływane bezpośrednio, co prowadzi do wielokrotnego wykonania kodu z klasy bazowej (Root).
+
+    Zarządzane (Managed): gdzie konsekwentne użycie super() zapewnia, że każda metoda w łańcuchu MRO (Method Resolution Order) jest wywoływana dokładnie raz.
+
+Kluczowy Koncept: Problem Diamentu i MRO
+
+Problem Diamentu pojawia się, gdy klasa dziedziczy po dwóch klasach, które mają wspólnego przodka. Tworzy to strukturę dziedziczenia przypominającą diament:
+
+      
+Root
+     /    \
+   Left  Right
+     \    /
+    Diamond
+
+    
+
+IGNORE_WHEN_COPYING_START
+Use code with caution.
+IGNORE_WHEN_COPYING_END
+
+Python rozwiązuje ten problem za pomocą algorytmu C3 MRO, który tworzy liniową, przewidywalną kolejność przeszukiwania klas (D, Left, Right, Root, object). Funkcja super() nie wywołuje po prostu metody "rodzica" – wywołuje metodę następnej klasy w łańcuchu MRO, co jest kluczem do prawidłowego zarządzania takimi strukturami.
+Twoje Zadanie
+
+Uzupełnij kod w klasach Left, Right i DiamondUnmanaged oraz odpowiedz na pytania analityczne.
+
+    Uzupełnij Left i Right (TODO 1, TODO 2):
+
+        W metodach action() tych klas, dodaj bezpośrednie wywołanie metody action() z klasy Root.
+
+        Prawidłowa składnia to NazwaKlasy.nazwa_metody(self), czyli Root.action(self).
+
+    Uzupełnij DiamondUnmanaged (TODO 3):
+
+        W metodzie action() wywołaj super().action() aby przekazać sterowanie do następnej klasy w MRO (czyli do Left).
+
+    Przeanalizuj wyniki (TODO 4, TODO 5):
+
+        Uruchom kod testowy dla obu scenariuszy (DiamondUnmanaged i DiamondManaged).
+
+        W komentarzach w kodzie, wyjaśnij, ile razy i dlaczego metoda Root.action() została wykonana w każdym z przypadków.
+
+Jak uruchomić i przetestować?
+
+Po uzupełnieniu kodu, odkomentuj i uruchom fragmenty testowe na końcu pliku.
+
+      
+# --- Testy ---
+print("--- Test DiamondUnmanaged (z bezpośrednimi wywołaniami) ---")
+d_unmanaged = DiamondUnmanaged()
+d_unmanaged.action()
+print("\nMRO dla DiamondUnmanaged:", [cls.__name__ for cls in DiamondUnmanaged.mro()])
+
+print("\n--- Test DiamondManaged (z konsekwentnym super()) ---")
+d_managed = DiamondManaged()
+d_managed.action()
+print("\nMRO dla DiamondManaged:", [cls.__name__ for cls in DiamondManaged.mro()])
+
+    
+
+IGNORE_WHEN_COPYING_START
+Use code with caution. Python
+IGNORE_WHEN_COPYING_END
+Oczekiwany Rezultat
+Scenariusz DiamondUnmanaged
+
+Metoda Root.action() zostanie wywołana wielokrotnie, ponieważ jest wywoływana bezpośrednio w Left i Right, a także przez super() na końcu łańcucha MRO.
+
+      
+--- Test DiamondUnmanaged (z bezpośrednimi wywołaniami) ---
+DiamondUnmanaged: action
+Left: action, calling Root directly
+Root: action
+Right: action, calling Root directly
+Root: action
+Root: action
+
+MRO dla DiamondUnmanaged: ['DiamondUnmanaged', 'Left', 'Right', 'Root', 'object']
+
+    
+
+IGNORE_WHEN_COPYING_START
+Use code with caution.
+IGNORE_WHEN_COPYING_END
+Scenariusz DiamondManaged
+
+Dzięki konsekwentnemu użyciu super(), każda metoda w łańcuchu MRO jest wywoływana tylko raz.
+
+      
+--- Test DiamondManaged (z konsekwentnym super()) ---
+DiamondManaged: action
+LeftSuper: action
+RightSuper: action
+Root: action
+
+MRO dla DiamondManaged: ['DiamondManaged', 'LeftSuper', 'RightSuper', 'Root', 'object']
+
+    
+
+    
