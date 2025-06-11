@@ -22,33 +22,26 @@ class EmailBuilder:
     def set_recipient(self, recipient: str) -> 'EmailBuilder':
         # TODO: Ustaw odbiorcę wiadomości (self.email.recipient)
         # Zwróć self, aby umożliwić łańcuchowe wywołania (fluent interface)
-        self.email.recipient = recipient
         return self
 
     def set_subject(self, subject: str) -> 'EmailBuilder':
         # TODO: Ustaw temat wiadomości (self.email.subject)
         # Zwróć self
-        self.email.subject = subject
         return self
 
     def set_body(self, body: str) -> 'EmailBuilder':
         # TODO: Ustaw treść wiadomości (self.email.body)
         # Zwróć self
-        self.email.body = body
         return self
 
     def add_attachment(self, attachment: str) -> 'EmailBuilder':
         # TODO: Dodaj załącznik do listy załączników (self.email.attachments)
         # Zwróć self
-        self.email.attachments.append(attachment)
         return self
 
     def build(self) -> EmailMessage:
         # TODO: Zwróć zbudowany obiekt EmailMessage.
         # Dodatkowo: sprawdź, czy odbiorca i temat są ustawione. Jeśli nie, rzuć ValueError.
-        if not self.email.recipient or not self.email.subject:
-            raise ValueError("Odbiorca i temat muszą być ustawione przed zbudowaniem wiadomości.")
-        return self.email
 
 # Przykład użycia (po uzupełnieniu TODO):
 # builder = EmailBuilder()
