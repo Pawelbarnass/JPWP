@@ -10,18 +10,6 @@ class EnsureLoggingMeta(type):
         #         Wskazówka: issubclass(cls, LoggingMixin) może być pomocne dla istniejących baz.
         #                  Aby dodać, utwórz nową krotkę.
         
-        needs_mixin = True
-        if LoggingMixin in bases:
-            needs_mixin = False
-        else:
-            for base_cls in bases:
-                if issubclass(base_cls, LoggingMixin):
-                    needs_mixin = False
-                    break
-        
-        if needs_mixin:
-            # __________ # Uzupełnij tworzenie nowej krotki `bases`
-            pass # Usuń to 'pass' po uzupełnieniu
 
         print(f"Tworzenie klasy '{name}' z bazami: {[b.__name__ for b in bases]}")
         return super().__new__(mcs, name, bases, attrs)
