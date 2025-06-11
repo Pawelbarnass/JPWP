@@ -16,17 +16,14 @@ class DataProcessor:
     def __init__(self):
         # TODO: Zainicjalizuj obiekt SimpleLogger i przypisz go do atrybutu instancji,
         # np. self.logger
-        self.logger = SimpleLogger()
 
     def process(self, data: str) -> str:
         # TODO: Użyj obiektu loggera (np. self.logger.log(...)) do logowania
         # informacji o rozpoczęciu przetwarzania.
-        self.logger.log(f"Rozpoczynam przetwarzanie danych: {data}")
 
         processed_data = data.upper() # Symulacja przetwarzania
 
         # TODO: Użyj obiektu loggera do logowania informacji o zakończeniu przetwarzania.
-        self.logger.log(f"Zakończono przetwarzanie. Wynik: {processed_data}")
         return processed_data
 
 # Przykład użycia (po uzupełnieniu TODO):
